@@ -1,0 +1,58 @@
+<div>
+    <div id="add-button-container">
+        <button class="add-button" mat-raised-button (click)="handleAdd()">Add owner</button>
+    </div>
+
+    <div id="filter-controls">
+        <mat-form-field id="select-filter">
+            <mat-label>Filter by</mat-label>
+            <mat-select (selectionChange)="changeFilterOption($event.value)">
+                @for (option of filteringOptions; track option) {
+                <mat-option [value]="option">{{ option }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field id="filter-input">
+            <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+
+        <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [style.background-color]="headerBgColor"> First name </th>
+            <td mat-cell *matCellDef="let owner"> {{owner.firstName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [style.background-color]="headerBgColor"> Last name </th>
+            <td mat-cell *matCellDef="let owner"> {{owner.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th id="actions-header" mat-header-cell *matHeaderCellDef [style.background-color]="headerBgColor"> Actions
+            </th>
+            <td class="actions-cell" mat-cell *matCellDef="let owner">
+                <div id="action-buttons-container">
+                    <button color="primary" mat-mini-fab (click)="showCarsOfOwner(owner.id)">
+                        <mat-icon aria-hidden="false" fontIcon="directions_car"></mat-icon>
+                    </button>
+                    <button color="primary" mat-mini-fab (click)="handleEdit(owner.id)">
+                        <mat-icon aria-hidden="false" fontIcon="edit"></mat-icon>
+                    </button>
+                    <button color="warn" mat-mini-fab (click)="handleDelete(owner.id)">
+                        <mat-icon aria-hidden="false" fontIcon="delete"></mat-icon>
+                    </button>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let owner; columns: displayedColumns;"></tr>
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10]">
+    </mat-paginator>
+</div>

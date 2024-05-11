@@ -1,0 +1,63 @@
+<div>
+    <div id="add-button-container">
+        <button class="add-button" mat-raised-button (click)="handleAdd()">Add car</button>
+    </div>
+
+    <div id="filter-controls">
+        <mat-form-field id="select-filter">
+            <mat-label>Filter by</mat-label>
+            <mat-select (selectionChange)="changeFilterOption($event.value)">
+                @for (option of filteringOptions; track option) {
+                <mat-option [value]="option">{{ option }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field id="filter-input">
+            <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+
+        <ng-container matColumnDef="make">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [style.background-color]="headerBgColor"> Make </th>
+            <td mat-cell *matCellDef="let car"> {{car.make}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="model">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [style.background-color]="headerBgColor"> Model </th>
+            <td mat-cell *matCellDef="let car"> {{car.model}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="colour">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [style.background-color]="headerBgColor"> Colour </th>
+            <td mat-cell *matCellDef="let car"> {{car.colour}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th id="actions-header" mat-header-cell *matHeaderCellDef [style.background-color]="headerBgColor"> Actions
+            </th>
+            <td class="actions-cell" mat-cell *matCellDef="let car">
+                <div id="action-buttons-container">
+                    <button color="primary" mat-mini-fab (click)="showDetails(car.id)">
+                        <mat-icon aria-hidden="false" fontIcon="info"></mat-icon>
+                    </button>
+                    <button color="primary" mat-mini-fab (click)="handleEdit(car.id)">
+                        <mat-icon aria-hidden="false" fontIcon="edit"></mat-icon>
+                    </button>
+                    <button color="warn" mat-mini-fab (click)="handleDelete(car.id)">
+                        <mat-icon aria-hidden="false" fontIcon="delete"></mat-icon>
+                    </button>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let car; columns: displayedColumns;"></tr>
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10]">
+    </mat-paginator>
+</div>

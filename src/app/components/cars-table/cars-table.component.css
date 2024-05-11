@@ -1,0 +1,37 @@
+#add-button-container {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.add-button {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+td,
+th {
+    width: 10%;
+}
+
+#actions-header {
+    text-align: center;
+}
+
+#action-buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#filter-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#select-filter {
+    width: 25%;
+}
+
+#filter-input {
+    width: 72%;
+}

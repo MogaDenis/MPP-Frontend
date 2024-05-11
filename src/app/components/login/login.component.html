@@ -1,0 +1,31 @@
+<mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+      <form class="login-form" (ngSubmit)="login()">
+        <mat-form-field class="line-full-width">
+  
+          <input id="login-email" type="email" matInput placeholder="Email" [formControl]="emailFormControl"
+            [errorStateMatcher]="matcher">
+  
+          @if (emailFormControl.hasError('required')) {
+          <mat-error>Email is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+  
+        <mat-form-field class="line-full-width">
+  
+          <input id="login-password" type="password" matInput placeholder="Password" [formControl]="passwordFormControl"
+            [errorStateMatcher]="matcher">
+  
+          @if (passwordFormControl.hasError('required')) {
+          <mat-error>Password is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+  
+        <div class="button">
+          <button type="button" mat-flat-button color="warn" (click)="goToRegister()">Register</button>
+          <button type="submit" mat-flat-button color="primary">Login</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>

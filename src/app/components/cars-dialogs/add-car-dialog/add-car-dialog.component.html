@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>Add a car</h2>
+<mat-dialog-content>
+    <form class="add-form">
+        <table class="line-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="line-full-width">
+                        <mat-label>Make</mat-label>
+                        <input id="add-make" matInput [formControl]="makeFormControl" [errorStateMatcher]="matcher">
+                        @if (makeFormControl.hasError('required')) {
+                        <mat-error>Make is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="line-full-width">
+                        <mat-label>Model</mat-label>
+                        <input id="add-model" matInput [formControl]="modelFormControl" [errorStateMatcher]="matcher">
+                        @if (modelFormControl.hasError('required')) {
+                        <mat-error>Model is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+        <mat-form-field class="line-full-width">
+            <mat-label>Colour</mat-label>
+            <input id="add-colour" matInput [formControl]="colourFormControl" [errorStateMatcher]="matcher">
+            @if (colourFormControl.hasError('required')) {
+            <mat-error>Colour is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="line-full-width">
+            <mat-label>ImageURL</mat-label>
+            <input id="add-image-url" matInput [formControl]="imageUrlFormControl" [errorStateMatcher]="matcher">
+            @if (imageUrlFormControl.hasError('required')) {
+            <mat-error>ImageUrl is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Owner</mat-label>
+            <mat-select name="ownerId" [(ngModel)]="selectedOwnerId" [formControl]="ownerFormControl"
+                [errorStateMatcher]="matcher">
+                @for (owner of owners; track owner.id) {
+                <mat-option [value]="owner.id">{{owner.firstName + " " + owner.lastName}}</mat-option>
+                }
+            </mat-select>
+            @if (ownerFormControl.hasError('required')) {
+            <mat-error>Owner is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" cdkFocusInitial (click)="this.addCar()">Save</button>
+</mat-dialog-actions>

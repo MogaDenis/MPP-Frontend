@@ -1,0 +1,41 @@
+<mat-card>
+    <mat-card-title>Register</mat-card-title>
+    <mat-card-content>
+        <form class="register-form" (ngSubmit)="register()">
+            <mat-form-field class="line-full-width">
+
+                <input id="register-email" type="email" matInput placeholder="Email" [formControl]="emailFormControl"
+                    [errorStateMatcher]="matcher">
+
+                @if (emailFormControl.hasError('required')) {
+                <mat-error>Email is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field class="line-full-width">
+
+                <input id="register-password" type="password" matInput placeholder="Password"
+                    [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+
+                @if (passwordFormControl.hasError('required')) {
+                <mat-error>Password is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field class="line-full-width">
+
+                <input id="register-repeat-password" type="password" matInput placeholder="Repeat password"
+                    [formControl]="repeatPasswordFormControl" [errorStateMatcher]="matcher">
+
+                @if (repeatPasswordFormControl.hasError('required')) {
+                <mat-error>You must repeat the password</mat-error>
+                }
+            </mat-form-field>
+
+            <div class="button">
+                <button type="button" mat-flat-button color="warn" (click)="goToLogin()">Cancel</button>
+                <button type="submit" mat-flat-button color="primary">Sign up</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

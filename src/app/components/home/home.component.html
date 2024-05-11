@@ -1,0 +1,15 @@
+<div class="logout-button-container">
+    <button class="table-button" mat-raised-button color="warn" (click)="logout()">Log out</button>
+</div>
+
+<div class="table-header">
+    <button class="table-button" mat-raised-button *ngFor="let table of tableOptions"
+        (click)="selectTable(table.value)">
+        {{ table.label }}
+    </button>
+</div>
+
+
+<div *ngIf="selectedTableComponent">
+    <ng-container *ngComponentOutlet="selectedTableComponent"></ng-container>
+</div>
