@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import ICar from '../../models/car.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +15,8 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { AddCarDialogComponent } from '../cars-dialogs/add-car-dialog/add-car-dialog.component';
 import { DeleteCarDialogComponent } from '../cars-dialogs/delete-car-dialog/delete-car-dialog.component';
 import { EditCarDialogComponent } from '../cars-dialogs/edit-car-dialog/edit-car-dialog.component';
+import { CarDetailsDialogComponent } from '../cars-dialogs/car-details-dialog/car-details-dialog.component';
+import { OwnerService } from '../../services/owner-service/owner.service';
 
 @Component({
   selector: 'app-cars-table',
@@ -24,7 +26,7 @@ import { EditCarDialogComponent } from '../cars-dialogs/edit-car-dialog/edit-car
   templateUrl: './cars-table.component.html',
   styleUrl: './cars-table.component.css'
 })
-export class CarsTableComponent {
+export class CarsTableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['make', 'model', 'colour', 'actions'];
   filteringOptions: string[] = ['make', 'model', 'colour'];
   chosenFilterOption: string = "";
@@ -37,7 +39,8 @@ export class CarsTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<ICar>;
 
-  constructor(private carService: CarService, private toastrService: ToastrService, private dialog: MatDialog) {
+  constructor(private carService: CarService, private ownerService: OwnerService, private toastrService: ToastrService,
+    private dialog: MatDialog) {
 
     this.dataSource = new MatTableDataSource<ICar>();
   }
@@ -80,6 +83,15 @@ export class CarsTableComponent {
     });
 
     this.carService.updatedCar$.subscribe({
+      next: () => {
+        const carsList = this.carService.getCars();
+        if (carsList) {
+          this.dataSource.data = carsList;
+        }
+      }
+    });
+
+    this.ownerService.deletedOwner$.subscribe({
       next: () => {
         const carsList = this.carService.getCars();
         if (carsList) {
@@ -148,7 +160,11 @@ export class CarsTableComponent {
   }
 
   public showDetails(rowId: number): void {
-
+    this.dialog.open(CarDetailsDialogComponent, {
+      data: {
+        carId: rowId,
+      }
+    })
   }
 
   changeFilterOption(value: string): void {

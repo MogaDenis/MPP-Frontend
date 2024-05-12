@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Details about the car</h2>
+<mat-dialog-content>
+    <form class="details-form">
+        <table class="line-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="line-full-width">
+                        <mat-label>Make</mat-label>
+                        <input id="details-make" matInput [readonly]="true">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="line-full-width">
+                        <mat-label>Model</mat-label>
+                        <input id="details-model" matInput [readonly]="true">
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+
+        <mat-form-field class="line-full-width">
+            <mat-label>Colour</mat-label>
+            <input id="details-colour" matInput [readonly]="true">
+        </mat-form-field>
+
+        <mat-form-field class="line-full-width">
+            <mat-label>Owner</mat-label>
+            <input id="details-owner" matInput [readonly]="true">
+        </mat-form-field>
+
+        <img id="details-image" alt="car-image">
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="warn" mat-dialog-close>Close</button>
+</mat-dialog-actions>

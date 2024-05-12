@@ -15,6 +15,7 @@ import { OwnerService } from '../../services/owner-service/owner.service';
 import { AddOwnerDialogComponent } from '../owners-dialogs/add-owner-dialog/add-owner-dialog.component';
 import { DeleteOwnerDialogComponent } from '../owners-dialogs/delete-owner-dialog/delete-owner-dialog.component';
 import { EditOwnerDialogComponent } from '../owners-dialogs/edit-owner-dialog/edit-owner-dialog.component';
+import { CarsListDialogComponent } from '../owners-dialogs/cars-list-dialog/cars-list-dialog.component';
 
 @Component({
   selector: 'app-owners-table',
@@ -148,7 +149,11 @@ export class OwnersTableComponent {
   }
 
   public showCarsOfOwner(rowId: number): void {
-
+    this.dialog.open(CarsListDialogComponent, {
+      data: {
+        ownerId: rowId
+      }
+    })
   }
 
   changeFilterOption(value: string): void {

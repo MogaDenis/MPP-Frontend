@@ -5,6 +5,7 @@ import ICar from '../../models/car.model';
 import { configuration } from '../../../main';
 import ICarForAddUpdate from '../../models/car-add-update.model';
 import { ToastrService } from 'ngx-toastr';
+import { OwnerService } from '../owner-service/owner.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,13 @@ export class CarService {
   public updatedCar$ = this.updatedCarSubject.asObservable();
   public deletedCar$ = this.deletedCarSubject.asObservable();
 
-  constructor(private httpClient: HttpClient, private toastrService: ToastrService) { }
+  constructor(private httpClient: HttpClient, private toastrService: ToastrService, private ownerService: OwnerService) {
+    this.ownerService.deletedOwner$.subscribe({
+      next: (ownerId) => {
+        this.carsList = this.carsList?.filter(car => car.ownerId !== ownerId);
+      }
+    });
+  }
 
   getCars(): ICar[] | undefined {
     return this.carsList;

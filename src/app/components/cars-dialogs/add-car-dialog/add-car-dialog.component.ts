@@ -32,7 +32,7 @@ export class AddErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-add-car-dialog',
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, CommonModule, FormsModule, MatFormField, MatInputModule,
-    ReactiveFormsModule, MatSelect, MatOption, MatButtonModule],
+    ReactiveFormsModule, MatSelect, MatOption],
   templateUrl: './add-car-dialog.component.html',
   styleUrl: './add-car-dialog.component.css'
 })

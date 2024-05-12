@@ -48,9 +48,7 @@ export class EditOwnerDialogComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) private ownerData: any, private renderer: Renderer2, private toastrService: ToastrService,
     private ownerService: OwnerService, private dialogReference: MatDialogRef<EditOwnerDialogComponent>, 
-    private changeDetectorRef: ChangeDetectorRef) {
-
-  }
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   ngAfterViewInit(): void {
     this.populateFormWithOwnerData();
