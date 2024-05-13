@@ -3,7 +3,7 @@ import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 
 export const configuration: any = {
-  apiBaseUrl: "https://localhost:7013/api/",
+  apiBaseUrl: "https://mpp-denis-moga-68481c1b704b.herokuapp.com/api/",
   routes: {
     cars: "Cars",
     owners: "Owners",
