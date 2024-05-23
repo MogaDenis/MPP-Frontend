@@ -32,6 +32,19 @@
                 }
             </mat-form-field>
 
+            <mat-form-field>
+                <mat-label>Role</mat-label>
+                <mat-select name="role" [(ngModel)]="selectedRole" [formControl]="roleFormControl"
+                    [errorStateMatcher]="matcher">
+                    @for (role of roles; track role.value) {
+                    <mat-option [value]="role.value">{{ role.label }}</mat-option>
+                    }
+                </mat-select>
+                @if (roleFormControl.hasError('required')) {
+                <mat-error>Role is <strong>required</strong></mat-error>
+                }
+            </mat-form-field>
+
             <div class="button">
                 <button type="button" mat-flat-button color="warn" (click)="goToLogin()">Cancel</button>
                 <button type="submit" mat-flat-button color="primary">Sign up</button>

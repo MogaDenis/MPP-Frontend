@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import IOwner from '../../models/owner.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -16,6 +16,7 @@ import { AddOwnerDialogComponent } from '../owners-dialogs/add-owner-dialog/add-
 import { DeleteOwnerDialogComponent } from '../owners-dialogs/delete-owner-dialog/delete-owner-dialog.component';
 import { EditOwnerDialogComponent } from '../owners-dialogs/edit-owner-dialog/edit-owner-dialog.component';
 import { CarsListDialogComponent } from '../owners-dialogs/cars-list-dialog/cars-list-dialog.component';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-owners-table',
@@ -26,6 +27,8 @@ import { CarsListDialogComponent } from '../owners-dialogs/cars-list-dialog/cars
   styleUrl: './owners-table.component.css'
 })
 export class OwnersTableComponent {
+  canModifyData!: boolean;
+
   displayedColumns: string[] = ['firstName', 'lastName', 'actions'];
   filteringOptions: string[] = ['firstName', 'lastName'];
   chosenFilterOption: string = "";
@@ -38,7 +41,8 @@ export class OwnersTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<IOwner>;
 
-  constructor(private ownerService: OwnerService, private toastrService: ToastrService, private dialog: MatDialog) {
+  constructor(private ownerService: OwnerService, private toastrService: ToastrService, private dialog: MatDialog, 
+    private authenticationService: AuthenticationService, private changeDetectorRef: ChangeDetectorRef) {
 
     this.dataSource = new MatTableDataSource<IOwner>();
   }
@@ -88,6 +92,15 @@ export class OwnersTableComponent {
         }
       }
     });
+
+    if (this.authenticationService.getRoleFromToken() === "REGULAR") {
+      this.canModifyData = false;
+    }
+    else {
+      this.canModifyData = true;
+    }
+
+    this.changeDetectorRef.detectChanges();
   }
 
   applyFilter(event: Event) {

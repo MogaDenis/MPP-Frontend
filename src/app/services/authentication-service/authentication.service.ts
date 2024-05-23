@@ -1,23 +1,49 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import IUser from '../../models/user.model';
 import { configuration } from '../../../main';
+import { jwtDecode } from 'jwt-decode';
+import IUserForRegister from '../../models/user-for-register.model';
+import IUserForLogin from '../../models/user-for-login.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
+  private roleClaimURI = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
 
   constructor(private httpClient: HttpClient) { }
 
-  login(user: IUser): Observable<any> {
+  login(user: IUserForLogin): Observable<any> {
     return this.httpClient.post(configuration.apiBaseUrl + configuration.routes.login, user, {
       responseType: "text"
-    });
+    }).pipe(
+      map((jwtToken) => {
+        sessionStorage.setItem("jwtToken", jwtToken);
+      })
+    );
   }
 
-  register(user: IUser): Observable<any> {
+  logout() {
+    sessionStorage.removeItem("jwtToken");
+  }
+
+  register(user: IUserForRegister): Observable<any> {
     return this.httpClient.post(configuration.apiBaseUrl + configuration.routes.register, user);
+  }
+
+  getRoleFromToken(): string | null {
+    const jwtToken = sessionStorage.getItem("jwtToken");
+    if (jwtToken === null) {
+      return null;
+    }
+
+    const decodedToken: any = jwtDecode(jwtToken);
+    if (decodedToken && decodedToken[this.roleClaimURI]) {
+      return decodedToken[this.roleClaimURI];
+    }
+
+    return null;
   }
 }

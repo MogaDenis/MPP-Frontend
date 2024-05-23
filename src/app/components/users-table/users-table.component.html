@@ -1,6 +1,6 @@
 <div>
     <div id="add-button-container">
-        <button class="add-button" mat-raised-button (click)="handleAdd()" [disabled]="!canModifyData">Add owner</button>
+        <button class="add-button" mat-raised-button (click)="handleAdd()">Add user</button>
     </div>
 
     <div id="filter-controls">
@@ -20,28 +20,25 @@
 
     <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
 
-        <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [style.background-color]="headerBgColor"> First name </th>
-            <td mat-cell *matCellDef="let owner"> {{owner.firstName}} </td>
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [style.background-color]="headerBgColor"> Email </th>
+            <td mat-cell *matCellDef="let user"> {{user.email}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [style.background-color]="headerBgColor"> Last name </th>
-            <td mat-cell *matCellDef="let owner"> {{owner.lastName}} </td>
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [style.background-color]="headerBgColor"> Role </th>
+            <td mat-cell *matCellDef="let user"> {{getRoleToString(user.role)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
             <th id="actions-header" mat-header-cell *matHeaderCellDef [style.background-color]="headerBgColor"> Actions
             </th>
-            <td class="actions-cell" mat-cell *matCellDef="let owner">
+            <td class="actions-cell" mat-cell *matCellDef="let user">
                 <div id="action-buttons-container">
-                    <button color="primary" mat-mini-fab (click)="showCarsOfOwner(owner.id)">
-                        <mat-icon aria-hidden="false" fontIcon="directions_car"></mat-icon>
-                    </button>
-                    <button color="primary" mat-mini-fab (click)="handleEdit(owner.id)" [disabled]="!canModifyData">
+                    <button color="primary" mat-mini-fab (click)="handleEdit(user.id)">
                         <mat-icon aria-hidden="false" fontIcon="edit"></mat-icon>
                     </button>
-                    <button color="warn" mat-mini-fab (click)="handleDelete(owner.id)" [disabled]="!canModifyData">
+                    <button color="warn" mat-mini-fab (click)="handleDelete(user.id)">
                         <mat-icon aria-hidden="false" fontIcon="delete"></mat-icon>
                     </button>
                 </div>
@@ -49,7 +46,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let owner; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let user; columns: displayedColumns;"></tr>
 
     </table>
 

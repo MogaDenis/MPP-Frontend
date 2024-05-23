@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import ICar from '../../models/car.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,7 @@ import { DeleteCarDialogComponent } from '../cars-dialogs/delete-car-dialog/dele
 import { EditCarDialogComponent } from '../cars-dialogs/edit-car-dialog/edit-car-dialog.component';
 import { CarDetailsDialogComponent } from '../cars-dialogs/car-details-dialog/car-details-dialog.component';
 import { OwnerService } from '../../services/owner-service/owner.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-cars-table',
@@ -27,6 +28,8 @@ import { OwnerService } from '../../services/owner-service/owner.service';
   styleUrl: './cars-table.component.css'
 })
 export class CarsTableComponent implements OnInit, AfterViewInit {
+  canModifyData!: boolean;
+
   displayedColumns: string[] = ['make', 'model', 'colour', 'actions'];
   filteringOptions: string[] = ['make', 'model', 'colour'];
   chosenFilterOption: string = "";
@@ -40,7 +43,7 @@ export class CarsTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTable) table!: MatTable<ICar>;
 
   constructor(private carService: CarService, private ownerService: OwnerService, private toastrService: ToastrService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog, private authenticationService: AuthenticationService, private changeDetectorRef: ChangeDetectorRef) {
 
     this.dataSource = new MatTableDataSource<ICar>();
   }
@@ -99,6 +102,15 @@ export class CarsTableComponent implements OnInit, AfterViewInit {
         }
       }
     });
+
+    if (this.authenticationService.getRoleFromToken() === "REGULAR") {
+      this.canModifyData = false;
+    }
+    else {
+      this.canModifyData = true;
+    }
+    
+    this.changeDetectorRef.detectChanges();
   }
 
   applyFilter(event: Event) {
@@ -140,10 +152,18 @@ export class CarsTableComponent implements OnInit, AfterViewInit {
   }
 
   handleAdd() {
+    if (!this.canModifyData) {
+      return;
+    }
+
     this.dialog.open(AddCarDialogComponent);
   }
 
   public handleDelete(rowId: number): void {
+    if (!this.canModifyData) {
+      return;
+    }
+
     this.dialog.open(DeleteCarDialogComponent, {
       data: {
         carId: rowId,
@@ -152,6 +172,10 @@ export class CarsTableComponent implements OnInit, AfterViewInit {
   }
 
   public handleEdit(rowId: number): void {
+    if (!this.canModifyData) {
+      return;
+    }
+
     this.dialog.open(EditCarDialogComponent, {
       data: {
         carId: rowId,

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { LoginErrorStateMatcher } from '../login/login.component';
 import IUser from '../../models/user.model';
+import IUserForRegister from '../../models/user-for-register.model';
 
 @Component({
   selector: 'app-register',
@@ -22,10 +23,19 @@ import IUser from '../../models/user.model';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
+  roles = [
+    { value: 0, label: "Regular" },
+    { value: 1, label: "Manager" },
+    { value: 2, label: "Admin" }
+  ];
+
   emailFormControl = new FormControl('', [Validators.required]);
   passwordFormControl = new FormControl('', [Validators.required]);
   repeatPasswordFormControl = new FormControl('', [Validators.required]);
+  roleFormControl = new FormControl('', [Validators.required]);
+
+  public selectedRole: number = 0;
 
   matcher = new LoginErrorStateMatcher();
 
@@ -33,13 +43,19 @@ export class RegisterComponent {
     private authenticationService: AuthenticationService
   ) { }
 
-  getUserDataFromForm(): IUser {
+  ngOnInit(): void {
+    this.authenticationService.logout();
+  }
+
+  getUserDataFromForm(): IUserForRegister {
     const email = (<HTMLInputElement>this.renderer.selectRootElement("#register-email")).value;
     const password = (<HTMLInputElement>this.renderer.selectRootElement("#register-password")).value;
+    const role = this.selectedRole;
 
     return {
       email: email,
-      password: password
+      password: password,
+      role: role
     };
   }
 

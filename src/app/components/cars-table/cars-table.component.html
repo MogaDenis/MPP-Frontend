@@ -1,6 +1,6 @@
 <div>
     <div id="add-button-container">
-        <button class="add-button" mat-raised-button (click)="handleAdd()">Add car</button>
+        <button class="add-button" mat-raised-button (click)="handleAdd()" [disabled]="!canModifyData">Add car</button>
     </div>
 
     <div id="filter-controls">
@@ -43,10 +43,10 @@
                     <button color="primary" mat-mini-fab (click)="showDetails(car.id)">
                         <mat-icon aria-hidden="false" fontIcon="info"></mat-icon>
                     </button>
-                    <button color="primary" mat-mini-fab (click)="handleEdit(car.id)">
+                    <button color="primary" mat-mini-fab (click)="handleEdit(car.id)" [disabled]="!canModifyData">
                         <mat-icon aria-hidden="false" fontIcon="edit"></mat-icon>
                     </button>
-                    <button color="warn" mat-mini-fab (click)="handleDelete(car.id)">
+                    <button color="warn" mat-mini-fab (click)="handleDelete(car.id)" [disabled]="!canModifyData">
                         <mat-icon aria-hidden="false" fontIcon="delete"></mat-icon>
                     </button>
                 </div>

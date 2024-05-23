@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import IUser from '../../models/user.model';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import IUserForLogin from '../../models/user-for-login.model';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -39,10 +40,10 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    localStorage.removeItem("jwtToken");
+    this.authenticationService.logout();
   }
 
-  getUserDataFromForm(): IUser {
+  getUserDataFromForm(): IUserForLogin {
     const email = (<HTMLInputElement>this.renderer.selectRootElement("#login-email")).value;
     const password = (<HTMLInputElement>this.renderer.selectRootElement("#login-password")).value;
 
@@ -75,8 +76,7 @@ export class LoginComponent implements OnInit {
     this.toastrService.clear();
 
     this.authenticationService.login(this.getUserDataFromForm()).subscribe({
-      next: (jwtToken) => {
-        localStorage.setItem("jwtToken", jwtToken);
+      next: () => {
         this.router.navigate(['/home']);
       }, 
       error: () => {

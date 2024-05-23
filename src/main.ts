@@ -3,12 +3,15 @@ import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 
 export const configuration: any = {
-  apiBaseUrl: "https://mpp-denis-moga-68481c1b704b.herokuapp.com/api/",
+  apiBaseUrl: "https://localhost:7013/api/",
   routes: {
     cars: "Cars",
     owners: "Owners",
+    users: "Users",
     login: "Login",
-    register: "Register"
+    register: "Register",
+    ping: "Ping",
+    checkIfTokenExpired: "CheckIfTokenExpired"
   }
 }
 
