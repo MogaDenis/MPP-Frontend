@@ -4,7 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, Observable, of, map } from 'rxjs';
 import { configuration } from '../../../main';
-import IUserForAddUpdate from '../../models/user-for-add-update.model';
+import IUserForUpdate from '../../models/user-for-update.model';
+import IUserForLogin from '../../models/user-for-login.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,7 @@ export class UserService {
       );
   }
 
-  addUser(newUser: IUserForAddUpdate): Observable<IUser> {
+  addUser(newUser: IUserForLogin): Observable<IUser> {
     return this.httpClient.post<IUser>(configuration.apiBaseUrl + configuration.routes.users, newUser)
       .pipe(
         map(User => {
@@ -61,7 +62,7 @@ export class UserService {
       )
   }
 
-  updateUser(userToUpdateId: number, newUserData: IUserForAddUpdate): Observable<IUser> {
+  updateUser(userToUpdateId: number, newUserData: IUserForUpdate): Observable<IUser> {
     return this.httpClient.put<IUser>(configuration.apiBaseUrl + configuration.routes.Users + "/" + userToUpdateId, newUserData)
       .pipe(
         map(() => {

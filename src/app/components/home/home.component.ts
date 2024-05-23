@@ -17,6 +17,7 @@ import { UsersTableComponent } from '../users-table/users-table.component';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
+  userRole: string | null = null;
   tableOptions: any = [
     { label: 'Cars', value: 'cars', component: CarsTableComponent },
     { label: 'Owners', value: 'owners', component: OwnersTableComponent },
@@ -31,7 +32,10 @@ export class HomeComponent implements OnInit {
     this.carService.fetchCars().subscribe();
     this.ownerService.fetchOwners().subscribe();
 
-    if (this.authenticationService.getRoleFromToken() === "ADMIN") {
+    this.userRole = this.authenticationService.getRoleFromToken();
+    if (this.userRole === "ADMIN") {
+
+
       this.tableOptions.push({
         label: 'Users', value: 'users', component: UsersTableComponent
       });

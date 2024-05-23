@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import IUser from '../../models/user.model';
 import { configuration } from '../../../main';
 import { jwtDecode } from 'jwt-decode';
 import IUserForRegister from '../../models/user-for-register.model';
@@ -34,7 +33,7 @@ export class AuthenticationService {
   }
 
   getRoleFromToken(): string | null {
-    const jwtToken = sessionStorage.getItem("jwtToken");
+    const jwtToken = this.getJwtToken();
     if (jwtToken === null) {
       return null;
     }
@@ -45,5 +44,13 @@ export class AuthenticationService {
     }
 
     return null;
+  }
+
+  getJwtToken(): string | null {
+    return sessionStorage.getItem("jwtToken");
+  }
+
+  checkIfSessionExpired(): Observable<any> {
+    return this.httpClient.get(configuration.apiBaseUrl + configuration.routes.checkIfTokenExpired);
   }
 }
