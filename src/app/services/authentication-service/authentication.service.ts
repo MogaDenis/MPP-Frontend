@@ -53,4 +53,8 @@ export class AuthenticationService {
   checkIfSessionExpired(): Observable<any> {
     return this.httpClient.get(configuration.apiBaseUrl + configuration.routes.checkIfTokenExpired);
   }
+
+  checkServerConnection(): Observable<any> {
+    return this.httpClient.get(configuration.apiBaseUrl + configuration.routes.ping);
+  }
 }

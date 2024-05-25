@@ -13,6 +13,9 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelect } from '@angular/material/select';
+import { AddUserDialogComponent } from '../users-dialogs/add-user-dialog/add-user-dialog.component';
+import { DeleteUserDialogComponent } from '../users-dialogs/delete-user-dialog/delete-user-dialog.component';
+import { EditUserDialogComponent } from '../users-dialogs/edit-user-dialog/edit-user-dialog.component';
 
 @Component({
   selector: 'app-users-table',
@@ -159,23 +162,23 @@ export class UsersTableComponent {
   }
 
   handleAdd() {
-    // this.dialog.open(AddOwnerDialogComponent);
+    this.dialog.open(AddUserDialogComponent);
   }
 
   public handleDelete(rowId: number): void {
-    // this.dialog.open(DeleteOwnerDialogComponent, {
-    //   data: {
-    //     ownerId: rowId,
-    //   },
-    // });
+    this.dialog.open(DeleteUserDialogComponent, {
+      data: {
+        userId: rowId,
+      },
+    });
   }
 
   public handleEdit(rowId: number): void {
-    // this.dialog.open(EditOwnerDialogComponent, {
-    //   data: {
-    //     ownerId: rowId,
-    //   },
-    // });
+    this.dialog.open(EditUserDialogComponent, {
+      data: {
+        userId: rowId,
+      },
+    });
   }
 
   changeFilterOption(value: string): void {

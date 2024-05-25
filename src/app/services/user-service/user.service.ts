@@ -6,6 +6,7 @@ import { Subject, Observable, of, map } from 'rxjs';
 import { configuration } from '../../../main';
 import IUserForUpdate from '../../models/user-for-update.model';
 import IUserForLogin from '../../models/user-for-login.model';
+import IUserForRegister from '../../models/user-for-register.model';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +64,7 @@ export class UserService {
   }
 
   updateUser(userToUpdateId: number, newUserData: IUserForUpdate): Observable<IUser> {
-    return this.httpClient.put<IUser>(configuration.apiBaseUrl + configuration.routes.Users + "/" + userToUpdateId, newUserData)
+    return this.httpClient.put<IUser>(configuration.apiBaseUrl + configuration.routes.users + "/" + userToUpdateId, newUserData)
       .pipe(
         map(() => {
           const updatedUser: IUser = {
@@ -88,7 +89,7 @@ export class UserService {
   }
 
   deleteUser(userId: number): Observable<any> {
-    return this.httpClient.delete(configuration.apiBaseUrl + configuration.routes.Users + "/" + userId)
+    return this.httpClient.delete(configuration.apiBaseUrl + configuration.routes.users + "/" + userId)
       .pipe(
         map(() => {
           this.usersList = this.usersList?.filter(User => User.id !== userId);

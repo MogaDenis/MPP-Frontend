@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Edit the user</h2>
+<mat-dialog-content>
+    <form class="edit-form">
+        <mat-form-field class="line-full-width">
+            <mat-label>Email</mat-label>
+            <input id="edit-email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher">
+            @if (emailFormControl.hasError('required')) {
+            <mat-error>Email is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="line-full-width">
+            <mat-label>Password</mat-label>
+            <input id="edit-password" matInput [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+            @if (passwordFormControl.hasError('required')) {
+            <mat-error>Password is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Role</mat-label>
+            <mat-select name="role" [(ngModel)]="selectedRole" [formControl]="roleFormControl"
+                [errorStateMatcher]="matcher">
+                @for (role of roles; track role.value) {
+                <mat-option [value]="role.value">{{ role.label }}</mat-option>
+                }
+            </mat-select>
+            @if (roleFormControl.hasError('required')) {
+            <mat-error>Role is <strong>required</strong></mat-error>
+            }
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="warn" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" cdkFocusInitial (click)="this.editUser()">Save</button>
+</mat-dialog-actions>

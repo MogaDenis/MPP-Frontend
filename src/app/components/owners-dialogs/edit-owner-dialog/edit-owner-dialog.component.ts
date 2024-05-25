@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import {
@@ -37,7 +37,7 @@ export class EditErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './edit-owner-dialog.component.html',
   styleUrl: './edit-owner-dialog.component.css'
 })
-export class EditOwnerDialogComponent {
+export class EditOwnerDialogComponent implements AfterViewInit {
   firstNameFormControl = new FormControl('', [Validators.required]);
   lastNameFormControl = new FormControl('', [Validators.required]);
 

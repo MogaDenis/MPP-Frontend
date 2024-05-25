@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import IOwner from '../../models/owner.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -26,7 +26,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
   templateUrl: './owners-table.component.html',
   styleUrl: './owners-table.component.css'
 })
-export class OwnersTableComponent {
+export class OwnersTableComponent implements OnInit, AfterViewInit {
   canModifyData!: boolean;
 
   displayedColumns: string[] = ['firstName', 'lastName', 'actions'];
