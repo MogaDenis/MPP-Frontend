@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { AuthenticationService } from './services/authentication-service/authentication.service';
 import { ToastrService } from 'ngx-toastr';
+import { ConnectionService } from './services/connection-service/connection.service';
+import { AuthenticationService } from './services/authentication-service/authentication.service';
+import { isProduction } from '../main';
 
 @Component({
   selector: 'app-root',
@@ -13,27 +15,45 @@ import { ToastrService } from 'ngx-toastr';
 export class AppComponent implements OnInit {
   title = 'frontend-angular';
 
-  constructor(private authenticationService: AuthenticationService, private toastrService: ToastrService,
-    private router: Router) { }
+  constructor(private connectionService: ConnectionService, private toastrService: ToastrService,
+    private router: Router, private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.startServerConnectionCheck();
+    if (isProduction) {
+      this.startServerConnectionCheck();
+    }
   }
 
   startServerConnectionCheck(): void {
-    this.authenticationService.checkServerConnection().subscribe({
+    this.connectionService.checkServerConnection().subscribe({
       next: () => {
-        this.authenticationService.checkIfSessionExpired().subscribe({
-          error: () => {
-            this.toastrService.warning("Your session has expired.", "Sorry", {
-              positionClass: 'toast-top-left'
-            });
+        let forceReload = false;
+        if (this.connectionService.isClientOffline) {
+          this.connectionService.retryPendingRequests();
+          forceReload = true;
+        }
 
-            this.router.navigate(['/']);
-          }
-        });
+        this.connectionService.clientOfflineSubject.next(false);
+
+        if (this.authenticationService.getJwtToken()) {
+          this.connectionService.checkIfSessionExpired().subscribe({
+            error: () => {
+              this.toastrService.warning("Your session has expired.", "Sorry", {
+                positionClass: 'toast-top-left'
+              });
+
+              this.router.navigate(['/']);
+            }
+          });
+        }
+
+        if (forceReload) {
+          window.location.reload();
+        }
       },
       error: () => {
+        this.connectionService.clientOfflineSubject.next(true);
+
         this.toastrService.warning("You are offline.", "Network issue", {
           positionClass: 'toast-bottom-left'
         })

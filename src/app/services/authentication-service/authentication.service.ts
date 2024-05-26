@@ -49,12 +49,4 @@ export class AuthenticationService {
   getJwtToken(): string | null {
     return sessionStorage.getItem("jwtToken");
   }
-
-  checkIfSessionExpired(): Observable<any> {
-    return this.httpClient.get(configuration.apiBaseUrl + configuration.routes.checkIfTokenExpired);
-  }
-
-  checkServerConnection(): Observable<any> {
-    return this.httpClient.get(configuration.apiBaseUrl + configuration.routes.ping);
-  }
 }

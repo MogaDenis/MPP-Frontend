@@ -2,6 +2,8 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 
+export const isProduction = true;
+
 export const configuration: any = {
   apiBaseUrl: "https://localhost:7013/api/",
   routes: {

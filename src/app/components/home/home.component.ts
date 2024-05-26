@@ -34,8 +34,6 @@ export class HomeComponent implements OnInit {
 
     this.userRole = this.authenticationService.getRoleFromToken();
     if (this.userRole === "ADMIN") {
-
-
       this.tableOptions.push({
         label: 'Users', value: 'users', component: UsersTableComponent
       });
